@@ -1,0 +1,25 @@
+.cuadro {
+    width: 20%;
+    background-color: aquamarine;
+    text-align: center;
+}
+
+.idTitle {
+    align-content: center;
+    text-align: center;
+    background-color: darkgoldenrod;
+    padding: 10px;
+}
+
+.formPrincipal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
