@@ -8,13 +8,10 @@ body {
     background-color: #f0f0f0;
 }
 
-.cuadro {
-    background-color: #000; 
-    color: #fff; 
-    text-align: center;
+fieldset {
     padding: 20px; 
     border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border: 2px solid #fff;
 }
 
 /* Estilo del contenedor principal */
@@ -37,4 +34,58 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
     animation: aparecer 1s ease-out; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    animation: aparecer 1s ease-out;
+    text-align: center;
+}
+
+
+/* Campos inputs */
+input {
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    box-sizing: border-box; 
+}
+
+/* Botón enviar */
+button {
+    background-color: #001f3f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #00509e; 
+}
+
+/* Un poco de animación al formulario */
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
