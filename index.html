@@ -7,19 +7,25 @@
     <title>Trabajo Práctico N°1</title>
 </head>
 <body>
-    <div class="formPrincipal">
-        <form id="materiaForm" >
-            <fieldset  alig="">
-                <legend>Información del Curso</legend>
-                <label for="materia">Materia: </label>
-                <input type="text" id="materia" name="materia" required />
+    <div class="content">
+        <div class="contentTitle">
+            <h1>Carreras Istic 2024</h1>
+            <img src="img/Logo.jpeg" alt="logoIstic" class="">
+        </div>
+        <div class="formPrincipal">
+            <form id="materiaForm" >
+                <fieldset  alig="">
+                    <legend>Información del Curso</legend>
+                    <label for="materia">Materia: </label>
+                    <input type="text" id="materia" name="materia" required />
+                    <br>
+                    <label for="cantidad">Cantidad de alumnos: </label>
+                    <input type="number" id="cantidad" name="cantidad" required min="1"/>
+                </fieldset>
                 <br>
-                <label for="cantidad">Cantidad de alumnos: </label>
-                <input type="number" id="cantidad" name="cantidad" required min="1"/>
-            </fieldset>
-            <br>
-            <button type="submit">Enviar</button>
-        </form>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
     </div>
     <script src="js/script.js"></script>
 </body>

@@ -1,0 +1,12 @@
+{
+  "name": "carrerasistic",
+  "version": "1.0.0",
+  "description": "Materias que contienen sus a lumnos\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C, pueden modificarse y eliminarse.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

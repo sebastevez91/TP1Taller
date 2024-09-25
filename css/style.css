@@ -1,3 +1,18 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+}
+
+/* Titulo */
+
+.contentTitle {
+    display: flex;
+    align-items: center;
+    padding: 10%;
+}
+
 /* el formulario */
 body {
     display: flex;

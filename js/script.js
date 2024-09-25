@@ -1,11 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const materiaForm = document.getElementById('materiaForm');
+const materiaForm = document.getElementById('materiaForm').addEventListener('submit', function(event) {
+    event.preventDefault();// Escuchar el evento submit del formulario
     const resultado = document.getElementById('resultado');
 
-    // Escuchar el evento submit del formulario
-    materiaForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
         // Obtener valores del formulario
         const nombreMateria = document.getElementById('materia').value;
         const cantidadAlumnos = document.getElementById('cantidad').value;
@@ -17,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Enviar datos al servidor con POST
-        fetch('/materias', {
+        fetch('http://localhost:3000/materias', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -32,4 +28,3 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error:', error));
     });
-});

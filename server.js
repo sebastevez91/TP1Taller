@@ -1,16 +1,11 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
+let listaMaterias = new Array();
 
 const servidor = http.createServer((req, res) =>{
     if(req.method === 'GET' && req.url === '/materias'){
         getMaterias(res);
-    }
-
-    // Obtener las materias
-    function getMaterias(res){
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(listaMaterias));
     }
 
     if (req.method === 'GET' && req.url.startsWith('/materias/')) {
@@ -59,6 +54,12 @@ const servidor = http.createServer((req, res) =>{
 
 
 });
+
+// Obtener las materias
+function getMaterias(res){
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(listaMaterias));
+}
 
 servidor.listen(3000, () => {
 console.log("Servidor ejecutándose");
