@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const materiaForm = document.getElementById('materiaForm');
     const resultado = document.getElementById('resultado');
 
     // Escuchar el evento submit del formulario
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             resultado.innerHTML = `<p>Materia agregada: ${data.nombre} (${data.cantidad} alumnos)</p>`;
             materiaForm.reset();
+            alert('Materia agregada exitosamente.');
         })
         .catch(error => console.error('Error:', error));
     });
