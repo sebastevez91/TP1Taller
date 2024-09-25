@@ -82,7 +82,15 @@ const servidor = http.createServer((req, res) =>{
             }
             });
     }
+    
+    if (req.method === 'DELETE' && req.url.startsWith('/delete/materia/')) {
+        const idMateria = parseInt((req.url).slice(20));
+        const indiceMateria = listaMaterias.findIndex(materia => materia.id == idMateria);
+        const materiaEliminada = listaMaterias.splice(indiceMateria, 1);
 
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ mensaje: 'Materia eliminada', materia: materiaEliminada }));
+    }
 });
 
 // Obtener las materias
