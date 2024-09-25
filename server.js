@@ -52,6 +52,36 @@ const servidor = http.createServer((req, res) =>{
         });
     }
 
+    if (req.method === 'PUT' && req.url.startsWith("/materias/")) {
+
+        const idMateria = parseInt((req.url).slice(14)); // Extrae el ID de la URL
+        let body = '';
+        
+        // Obtener el cuerpo de la solicitud
+        req.on('data', chunk => {
+            body += chunk;
+        });
+        req.on('end', () => {
+            const informacionEnviada = JSON.parse(body);
+            // Buscar la materia por ID y actualizar su nombre
+            const materiaIndex = listaMaterias.findIndex(m => m.id === parseInt(idMateria));
+        
+            if (materiaIndex !== -1) {
+                listaMaterias[materiaIndex].name =
+                
+                informacionEnviada.name;
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+        
+                res.end(JSON.stringify({ mensaje: 'Materia actualizada', materia: listaMaterias[materiaIndex] }));
+        
+            } else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+        
+                res.end(JSON.stringify({ mensaje: 'Materia no encontrada' }));       
+            }
+            });
+    }
 
 });
 
