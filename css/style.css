@@ -31,6 +31,7 @@ fieldset {
 
 /* Estilo del contenedor principal */
 .formPrincipal {
+    display: none;
     display: flex;
     justify-content: center;
     align-items: center;

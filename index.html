@@ -12,20 +12,32 @@
             <h1>Carreras Istic 2024</h1>
             <img src="img/Logo.jpeg" alt="logoIstic" class="">
         </div>
+        <button type="button" onclick="agregarMateria()">Agregar Materia</button>
+        <br>
+        <button type="button" onclick="actualizarMateria()">Actualizar Materia</button>
+        <br>
+        <button type="button" onclick="eliminarMateria()">Eliminar Materia</button>
         <div class="formPrincipal">
-            <form id="materiaForm" >
-                <fieldset  alig="">
+            <form id="materiaForm">
+                <fieldset>
                     <legend>Información del Curso</legend>
                     <label for="materia">Materia: </label>
                     <input type="text" id="materia" name="materia" required />
                     <br>
                     <label for="cantidad">Cantidad de alumnos: </label>
                     <input type="number" id="cantidad" name="cantidad" required min="1"/>
+                    <br>
+                    <label for="id">ID del curso (para actualizar o eliminar): </label>
+                    <input type="number" id="id" name="id" min="1"/>
+                    <br>
+                    <label for="nuevoNombre">Nuevo nombre de la materia (para actualizar): </label>
+                    <input type="text" id="nuevoNombre" name="nuevoNombre"/>
                 </fieldset>
                 <br>
-                <button type="submit">Enviar</button>
+                <button type="submit" onclick="" >Enviar</button>
             </form>
         </div>
+        <div id="resultado"></div>
     </div>
     <script src="js/script.js"></script>
 </body>

@@ -1,19 +1,28 @@
 document.getElementById('materiaForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir la recarga del formulario
-    const resultado = document.getElementById('resultado');
-    const materiaForm = document.getElementById('materiaForm');
 
-    // Obtener valores del formulario
+    const accion = document.getElementById('accion').value; // Determina si es agregar, actualizar o eliminar
+    const resultado = document.getElementById('resultado');
+
+    if (accion === 'agregar') {
+        agregarMateria();
+    } else if (accion === 'actualizar') {
+        actualizarMateria();
+    } else if (accion === 'eliminar') {
+        eliminarMateria();
+    }
+});
+
+// Función para agregar materia (POST)
+function agregarMateria() {
     const nombreMateria = document.getElementById('materia').value;
     const cantidadAlumnos = document.getElementById('cantidad').value;
     
-    // Parte del POST
     const nuevaMateria = {
         nombre: nombreMateria,
         cantidad: cantidadAlumnos
     };
 
-    // Enviar datos al servidor con POST
     fetch('http://localhost:3000/materias', {
         method: 'POST',
         headers: {
@@ -23,16 +32,18 @@ document.getElementById('materiaForm').addEventListener('submit', function(event
     })
     .then(response => response.json())
     .then(data => {
-        resultado.innerHTML = `<p>Materia agregada: ${data.nombre} (${data.cantidad} alumnos)</p>`;
-        materiaForm.reset();
+        resultado.innerHTML = `<p>Materia agregada: ${data.materia.nombre} (${data.materia.cantidad} alumnos)</p>`;
+        document.getElementById('materiaForm').reset();
         alert('Materia agregada exitosamente.');
     })
     .catch(error => {
         console.error('Error:', error);
         alert('Hubo un error al agregar la materia.');
     });
+}
 
-    // Parte del PUT
+// Función para actualizar materia (PUT)
+function actualizarMateria() {
     const idCurso = document.getElementById('id').value;
     const nuevoNombre = document.getElementById('nuevoNombre').value;
 
@@ -40,7 +51,7 @@ document.getElementById('materiaForm').addEventListener('submit', function(event
         name: nuevoNombre
     };
 
-    fetch(`/materias/${idCurso}`, {
+    fetch(`http://localhost:3000/materias/${idCurso}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -54,12 +65,14 @@ document.getElementById('materiaForm').addEventListener('submit', function(event
     .catch(error => {
         console.error('Error:', error);
         alert('Hubo un error al actualizar la materia.');
-    }); 
+    });
+}
 
-    // Parte de DELETE
+// Función para eliminar materia (DELETE)
+function eliminarMateria() {
     const idMateriaAEliminar = document.getElementById("idMateriaAEliminar").value;
 
-    fetch(`/delete/materia/${idMateriaAEliminar}`, {
+    fetch(`http://localhost:3000/delete/materia/${idMateriaAEliminar}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -79,5 +92,4 @@ document.getElementById('materiaForm').addEventListener('submit', function(event
         console.error('Error en la petición:', error);
         alert('Hubo un error al eliminar la materia.');
     });
-});
-    
+}
