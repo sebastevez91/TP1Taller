@@ -80,6 +80,6 @@ function getMaterias(res) {
     res.end(JSON.stringify(listaMaterias));
 }
 
-servidor.listen(3000, () => {
+servidor.listen(3128, () => {
     console.log("Servidor ejecutándose");
 });

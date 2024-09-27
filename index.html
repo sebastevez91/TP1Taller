@@ -12,29 +12,39 @@
             <h1>Carreras Istic 2024</h1>
             <img src="img/Logo.jpeg" alt="logoIstic" class="">
         </div>
-        <button type="button" onclick="agregarMateria()">Agregar Materia</button>
-        <br>
-        <button type="button" onclick="actualizarMateria()">Actualizar Materia</button>
-        <br>
-        <button type="button" onclick="eliminarMateria()">Eliminar Materia</button>
+        <div>
+            <button type="button" onclick="verCampos('agregar')">Agregar Materia</button>
+            <br>
+            <button type="button" onclick="verCampos('actualizar')">Actualizar Materia</button>
+            <br>
+            <button type="button" onclick="verCampos('eliminar')">Eliminar Materia</button>
+        </div>
         <div class="formPrincipal">
             <form id="materiaForm">
                 <fieldset>
                     <legend>Información del Curso</legend>
-                    <label for="materia">Materia: </label>
-                    <input type="text" id="materia" name="materia" required />
+                    <div class="nameMateria">
+                        <label for="materia">Materia: </label>
+                        <input type="text" id="materia" name="materia" required />
+                    </div>
                     <br>
-                    <label for="cantidad">Cantidad de alumnos: </label>
-                    <input type="number" id="cantidad" name="cantidad" required min="1"/>
+                    <div class="numCantidad">
+                        <label for="cantidad">Cantidad de alumnos: </label>
+                        <input type="number" id="cantidad" name="cantidad" required min="1"/>
+                    </div>
                     <br>
-                    <label for="id">ID del curso (para actualizar o eliminar): </label>
-                    <input type="number" id="id" name="id" min="1"/>
+                    <div class="idMateria">
+                        <label for="idMat">ID de la materia: </label>
+                        <input type="number" id="idMat" name="id" min="1" />
+                    </div>
                     <br>
-                    <label for="nuevoNombre">Nuevo nombre de la materia (para actualizar): </label>
-                    <input type="text" id="nuevoNombre" name="nuevoNombre"/>
+                    <div class="newNameMateria">
+                        <label for="nuevoNombre">Nuevo nombre de la materia: </label>
+                        <input type="text" id="nuevoNombre" name="nuevoNombre"/>
+                    </div>
                 </fieldset>
                 <br>
-                <button type="submit" onclick="" >Enviar</button>
+                <button type="submit" >Enviar</button>
             </form>
         </div>
         <div id="resultado"></div>

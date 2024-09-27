@@ -1,8 +1,8 @@
+var accion = ""; // Determina si es agregar, actualizar o eliminar
+const resultado = document.getElementById('resultado'); // Ahora en ámbito global
+
 document.getElementById('materiaForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir la recarga del formulario
-
-    const accion = document.getElementById('accion').value; // Determina si es agregar, actualizar o eliminar
-    const resultado = document.getElementById('resultado');
 
     if (accion === 'agregar') {
         agregarMateria();
@@ -13,26 +13,67 @@ document.getElementById('materiaForm').addEventListener('submit', function(event
     }
 });
 
+function verCampos(seleccion) {
+    var nameM = document.querySelector(".nameMateria");
+    var cant = document.querySelector(".numCantidad");
+    var idMat = document.querySelector(".idMateria");
+    var newM = document.querySelector(".newNameMateria");
+
+    // Reset del formulario
+    document.getElementById('materiaForm').reset();
+    resultado.innerHTML = ""; // Limpiar el resultado al cambiar de acción
+
+    if (seleccion == "agregar") {
+        accion = "agregar";
+        nameM.style.display = "block";
+        cant.style.display = "block";
+        idMat.style.display = "none";
+        newM.style.display = "none";
+    } else if (seleccion == "actualizar") {
+        accion = "actualizar";
+        nameM.style.display = "block";
+        cant.style.display = "none";
+        idMat.style.display = "block";
+        newM.style.display = "block";
+    } else {
+        accion = "eliminar";
+        nameM.style.display = "none";
+        cant.style.display = "none";
+        idMat.style.display = "block";
+        newM.style.display = "none";
+    }
+}
+
 // Función para agregar materia (POST)
 function agregarMateria() {
     const nombreMateria = document.getElementById('materia').value;
     const cantidadAlumnos = document.getElementById('cantidad').value;
-    
+
+    if (!nombreMateria || !cantidadAlumnos) {
+        alert('Por favor completa todos los campos.');
+        return;
+    }
+
     const nuevaMateria = {
         nombre: nombreMateria,
         cantidad: cantidadAlumnos
     };
 
-    fetch('http://localhost:3000/materias', {
+    fetch('http://localhost:3128/materias', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(nuevaMateria)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+        return response.json();
+    })
     .then(data => {
-        resultado.innerHTML = `<p>Materia agregada: ${data.materia.nombre} (${data.materia.cantidad} alumnos)</p>`;
+        resultado.innerHTML = `<p>Materia agregada: ${data.nombre} (${data.cantidad} alumnos)</p>`;
         document.getElementById('materiaForm').reset();
         alert('Materia agregada exitosamente.');
     })
@@ -44,21 +85,31 @@ function agregarMateria() {
 
 // Función para actualizar materia (PUT)
 function actualizarMateria() {
-    const idCurso = document.getElementById('id').value;
+    const idCurso = document.getElementById('idMat').value;
     const nuevoNombre = document.getElementById('nuevoNombre').value;
 
+    if (!idCurso || !nuevoNombre) {
+        alert('Por favor completa todos los campos.');
+        return;
+    }
+
     const nuevaDataMateria = {
-        name: nuevoNombre
+        nombre: nuevoNombre
     };
 
-    fetch(`http://localhost:3000/materias/${idCurso}`, {
+    fetch(`http://localhost:3128/materias/${idCurso}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(nuevaDataMateria)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+        return response.json();
+    })
     .then(result => {
         alert('Materia actualizada exitosamente.');
     })
@@ -70,21 +121,31 @@ function actualizarMateria() {
 
 // Función para eliminar materia (DELETE)
 function eliminarMateria() {
-    const idMateriaAEliminar = document.getElementById("idMateriaAEliminar").value;
+    const idMateriaAEliminar = document.getElementById('idMat').value;
 
-    fetch(`http://localhost:3000/delete/materia/${idMateriaAEliminar}`, {
+    if (!idMateriaAEliminar) {
+        alert('Por favor ingresa un ID válido para eliminar.');
+        return;
+    }
+
+    fetch(`http://localhost:3128/materias/${idMateriaAEliminar}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.mensaje === 'Materia eliminada') {
             alert('Materia eliminada exitosamente.');
-            console.log('Eliminación exitosa:', data);
+            resultado.innerHTML = `<p>${data.mensaje}</p>`;
         } else {
-            console.log('Error:', data.mensaje);
+            console.error('Error:', data.mensaje);
             alert('Hubo un error al eliminar la materia.');
         }
     })
