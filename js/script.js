@@ -1,5 +1,5 @@
 var accion = ""; // Determina si es agregar, actualizar o eliminar
-const resultado = document.getElementById('resultado'); // Ahora en ámbito global
+const resultado = document.getElementById('resultado'); 
 
 document.getElementById('materiaForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir la recarga del formulario
