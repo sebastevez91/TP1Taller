@@ -1,115 +1,81 @@
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
 let listaMaterias = [
     { id: 1, nombre: 'Matemáticas', cantidad: 30 },
     { id: 2, nombre: 'Física', cantidad: 25 },
     { id: 3, nombre: 'Química', cantidad: 20 },
     { id: 4, nombre: 'Historia', cantidad: 40 }
-];;
+];
 
+// Crear el servidor
 const servidor = http.createServer((req, res) => {
     const { method, url } = req;
 
-    if (method === 'GET' && url === '/materias') {
-        getMaterias(res);
-    } else if (method === 'GET' && url.startsWith('/materias/')) {
-        const id = parseInt(url.slice(10)); 
+    // Ruta principal ("/") para servir index.html
+    if (method === 'GET' && url === '/') {
+        const filePath = path.join(__dirname, 'frontend', 'index.html');
 
-        if (!isNaN(id)) {
-            getMateriaById(id, res);
-        } else {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'ID inválido: no corresponde a ninguna materia.' }));
-        }
+        // Leer el archivo HTML y enviarlo en la respuesta
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Error al cargar el archivo HTML');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
+
+    // Ruta para obtener la lista de materias
+    } else if (method === 'GET' && url === '/materias') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(listaMaterias));
+
+    // Ruta para agregar una nueva materia (POST)
     } else if (method === 'POST' && url === '/materias') {
         let body = '';
-
-        req.on('data', chunk => body += chunk.toString());
-        req.on('end', () => {
-            try {
-                const nuevaMateria = JSON.parse(body);
-
-                if (!nuevaMateria.id || !nuevaMateria.nombre || !nuevaMateria.cantidad) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Datos incompletos. Se requiere ID, nombre y cantidad.' }));
-                    return;
-                }
-
-                // Validar si el ID ya existe
-                if (listaMaterias.some(m => m.id === nuevaMateria.id)) {
-                    res.writeHead(409, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'ID de materia ya existente.' }));
-                    return;
-                }
-
-                listaMaterias.push(nuevaMateria); 
-                res.writeHead(201, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Materia agregada', materia: nuevaMateria }));
-
-            } catch (error) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Error en el formato de la solicitud.' }));
-            }
+        req.on('data', chunk => {
+            body += chunk.toString();
         });
-    } else if (method === 'PUT' && url.startsWith("/materias/")) {
-        const idMateria = parseInt(url.slice(10));
-        let body = '';
-
-        req.on('data', chunk => body += chunk.toString());
         req.on('end', () => {
-            try {
-                const informacionEnviada = JSON.parse(body);
-                const materiaIndex = listaMaterias.findIndex(m => m.id === idMateria);
+            const nuevaMateria = JSON.parse(body);
 
-                if (materiaIndex !== -1) {
-                    listaMaterias[materiaIndex].nombre = informacionEnviada.nombre || listaMaterias[materiaIndex].nombre;
-                    listaMaterias[materiaIndex].cantidad = informacionEnviada.cantidad || listaMaterias[materiaIndex].cantidad;
-                    
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ mensaje: 'Materia actualizada', materia: listaMaterias[materiaIndex] }));
-                } else {
-                    res.writeHead(404, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ mensaje: 'Materia no encontrada' }));
-                }
-            } catch (error) {
+            if (!nuevaMateria.nombre || !nuevaMateria.cantidad) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Error en el formato de la solicitud.' }));
+                res.end(JSON.stringify({ error: 'Datos incompletos. Se requiere nombre y cantidad.' }));
+                return;
             }
+
+            nuevaMateria.id = listaMaterias.length + 1;
+            listaMaterias.push(nuevaMateria);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ mensaje: 'Materia agregada', materia: nuevaMateria }));
         });
+
+    // Ruta para eliminar una materia (DELETE)
     } else if (method === 'DELETE' && url.startsWith('/materias/')) {
-        const idMateria = parseInt(url.slice(16));
-        const indiceMateria = listaMaterias.findIndex(materia => materia.id == idMateria);
+        const idMateria = parseInt(url.split('/')[2]);
+        const indiceMateria = listaMaterias.findIndex(materia => materia.id === idMateria);
 
         if (indiceMateria !== -1) {
             const materiaEliminada = listaMaterias.splice(indiceMateria, 1);
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ mensaje: 'Materia eliminada', materia: materiaEliminada }));
+            res.end(JSON.stringify({ mensaje: 'Materia eliminada', materia: materiaEliminada[0] }));
         } else {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ mensaje: 'Materia no encontrada' }));
         }
+
+    // Ruta no encontrada
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Ruta no encontrada.');
     }
 });
 
-// Obtener las materias
-function getMaterias(res) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(listaMaterias));
-}
-
-function getMateriaById(id, res) {
-    const materia = listaMaterias.find(itemArreglo => itemArreglo.id === id);
-    if (materia) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(materia));
-    } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Materia no encontrada.' }));
-    }
-}
-
+// Iniciar el servidor en el puerto 3128
 servidor.listen(3128, () => {
-    console.log("Servidor ejecutándose");
+    console.log('Servidor ejecutándose en http://localhost:3128');
 });
