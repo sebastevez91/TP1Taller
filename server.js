@@ -11,25 +11,20 @@ let listaMaterias = [
 
 // Crear el servidor
 const servidor = http.createServer((req, res) => {
-    const { method, url } = req;
-
-    // Ruta principal ("/") para servir index.html
-    if (method === 'GET' && url === '/') {
-        const filePath = path.join(__dirname, 'frontend', 'index.html');
-
-        // Leer el archivo HTML y enviarlo en la respuesta
-        fs.readFile(filePath, (err, data) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/plain' });
-                res.end('Error al cargar el archivo HTML');
-            } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
-            }
-        });
-
+    const parsedUrl = url.parse(req.url, true);
+    if(req.method == "GET" && parsedUrl.pathname == "/"){
+    // Mostrar formulario para agregar registro
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    fs.readFile('index.html', (err, data) => {
+    if (err) {
+    res.writeHead(500);
+    return res.end('Error cargando el formulario.');
+    }
+    res.end(data);
+    });
+    }
     // Ruta para obtener la lista de materias
-    } else if (method === 'GET' && url === '/materias') {
+    else if (method === 'GET' && url === '/materias') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(listaMaterias));
 
