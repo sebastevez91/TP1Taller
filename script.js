@@ -3,46 +3,8 @@ const resultado = document.getElementById('resultado');
 
 document.getElementById('materiaForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir la recarga del formulario
-
-    if (accion === 'agregar') {
         agregarMateria();
-    } else if (accion === 'actualizar') {
-        actualizarMateria();
-    } else if (accion === 'eliminar') {
-        eliminarMateria();
-    }
 });
-
-function verCampos(seleccion) {
-    var nameM = document.querySelector(".nameMateria");
-    var cant = document.querySelector(".numCantidad");
-    var idMat = document.querySelector(".idMateria");
-    var newM = document.querySelector(".newNameMateria");
-
-    // Reset del formulario
-    document.getElementById('materiaForm').reset();
-    resultado.innerHTML = ""; // Limpiar el resultado al cambiar de acción
-
-    if (seleccion == "agregar") {
-        accion = "agregar";
-        nameM.style.display = "block";
-        cant.style.display = "block";
-        idMat.style.display = "none";
-        newM.style.display = "none";
-    } else if (seleccion == "actualizar") {
-        accion = "actualizar";
-        nameM.style.display = "block";
-        cant.style.display = "none";
-        idMat.style.display = "block";
-        newM.style.display = "block";
-    } else {
-        accion = "eliminar";
-        nameM.style.display = "none";
-        cant.style.display = "none";
-        idMat.style.display = "block";
-        newM.style.display = "none";
-    }
-}
 
 // Función para agregar materia (POST)
 function agregarMateria() {
