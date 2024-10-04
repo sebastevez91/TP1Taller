@@ -63,10 +63,6 @@ form {
     text-align: center;
 }
 
-.idMateria, .nameMateria, .numCantidad, .newNameMateria {
-    display: none;
-}
-
 /* Campos inputs */
 input {
     width: 100%; 
