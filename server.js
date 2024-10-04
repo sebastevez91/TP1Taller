@@ -10,20 +10,46 @@ let listaMaterias = [
     { id: 4, nombre: 'Historia', cantidad: 40 }
 ];
 
+// Extensiones permitidas para archivos estáticos
+const mimeTypes = {
+    '.html': 'text/html',
+    '.css': 'text/css',
+    '.js': 'application/javascript',
+    '.json': 'application/json',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.gif': 'image/gif',
+};
+
+// Función para servir archivos estáticos
+function servirArchivoEstatico(rutaArchivo, res) {
+    const ext = path.extname(rutaArchivo);
+    const mimeType = mimeTypes[ext] || 'application/octet-stream';
+
+    fs.readFile(rutaArchivo, (err, data) => {
+        if (err) {
+            res.writeHead(404);
+            res.end('Archivo no encontrado');
+        } else {
+            res.writeHead(200, { 'Content-Type': mimeType });
+            res.end(data);
+        }
+    });
+}
+
 // Crear el servidor
 const servidor = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
-    // Ruta principal
-    if(req.method === "GET" && parsedUrl.pathname === "/"){
-        // Mostrar formulario para agregar registro
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        fs.readFile('index.html', (err, data) => {
-        if (err) {
-            res.writeHead(500);
-            return res.end('Error cargando el formulario.');
-        }
-        res.end(data);
-        });
+    let rutaArchivo = '.' + parsedUrl.pathname;
+
+    // Si no se especifica un archivo, usar 'index.html' por defecto
+    if (rutaArchivo === './') {
+        rutaArchivo = './index.html';
+    }
+
+    // Verificar si se está solicitando un archivo estático
+    if (fs.existsSync(rutaArchivo)) {
+        servirArchivoEstatico(rutaArchivo, res);
     }// Ruta para obtener la lista de materias
     else if (req.method === 'GET' && parsedUrl.pathname  === '/materias') {
         res.writeHead(200, { 'Content-Type': 'application/json' });

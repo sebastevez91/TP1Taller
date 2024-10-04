@@ -3,24 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Trabajo Práctico N°1</title>
 </head>
 <body>
     <div class="content">
         <div class="contentTitle">
             <h1>Carreras Istic 2024</h1>
-            <img src="img/Logo.jpeg" alt="logoIstic" class="">
-        </div>
-        <div>
-            <button type="button" onclick="verCampos('agregar')">Agregar Materia</button>
-            <br>
-            <button type="button" onclick="verCampos('actualizar')">Actualizar Materia</button>
-            <br>
-            <button type="button" onclick="verCampos('eliminar')">Eliminar Materia</button>
+            <img src="Logo.jpeg" alt="logoIstic" class="">
         </div>
         <div class="formPrincipal">
-            <form id="materiaForm" method="post">
+            <form id="materiaForm" method="POST">
                 <fieldset>
                     <legend>Información del Curso</legend>
                     <div class="nameMateria">
@@ -44,11 +37,11 @@
                     </div>
                 </fieldset>
                 <br>
-                <button type="submit" >Enviar</button>
+                <button type="submit" > Agregar </button>
             </form>
         </div>
         <div id="resultado"></div>
     </div>
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
