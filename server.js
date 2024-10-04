@@ -13,24 +13,24 @@ let listaMaterias = [
 // Crear el servidor
 const servidor = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
-    if(req.method == "GET" && parsedUrl.pathname == "/"){
-    // Mostrar formulario para agregar registro
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    fs.readFile('index.html', (err, data) => {
-    if (err) {
-    res.writeHead(500);
-    return res.end('Error cargando el formulario.');
-    }
-    res.end(data);
-    });
-    }
-    // Ruta para obtener la lista de materias
-    else if (method === 'GET' && url === '/materias') {
+    // Ruta principal
+    if(req.method === "GET" && parsedUrl.pathname === "/"){
+        // Mostrar formulario para agregar registro
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        fs.readFile('index.html', (err, data) => {
+        if (err) {
+            res.writeHead(500);
+            return res.end('Error cargando el formulario.');
+        }
+        res.end(data);
+        });
+    }// Ruta para obtener la lista de materias
+    else if (req.method === 'GET' && parsedUrl.pathname  === '/materias') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(listaMaterias));
 
     // Ruta para agregar una nueva materia (POST)
-    } else if (method === 'POST' && url === '/materias') {
+    } else if (req.method === 'POST' && parsedUrl.pathname  === '/materias') {
         let body = '';
         req.on('data', chunk => {
             body += chunk.toString();
@@ -51,7 +51,7 @@ const servidor = http.createServer((req, res) => {
         });
 
     // Ruta para eliminar una materia (DELETE)
-    } else if (method === 'DELETE' && url.startsWith('/materias/')) {
+    } else if (req.method === 'DELETE' && url.startsWith('/materias/')) {
         const idMateria = parseInt(url.split('/')[2]);
         const indiceMateria = listaMaterias.findIndex(materia => materia.id === idMateria);
 
