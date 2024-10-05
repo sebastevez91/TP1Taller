@@ -93,6 +93,11 @@ function updateSubjectList(subjects) {
 }
 
 // Obtener la lista inicial de materias
-fetch('http://localhost:3128/materias')
-    .then(response => response.json())
-    .then(data => updateSubjectList(data));
+function obtenerMaterias() {
+    fetch('http://localhost:3128/materias')
+        .then(response => response.json())
+        .then(data => updateSubjectList(data));
+}
+
+// Obtener la lista inicial de materias al cargar la página
+obtenerMaterias();
