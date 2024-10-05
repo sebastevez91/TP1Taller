@@ -93,6 +93,27 @@ button:hover {
     background-color: #00509e; 
 }
 
+/* Table del index */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
 /* Un poco de animación al formulario */
 @keyframes aparecer {
     0% {
