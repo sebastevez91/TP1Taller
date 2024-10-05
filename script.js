@@ -1,4 +1,4 @@
-var accion = ""; // Determina si es agregar, actualizar o eliminar
+const subjectList = document.getElementById('subject-list');
 const resultado = document.getElementById('resultado'); 
 
 document.getElementById('materiaForm').addEventListener('submit', function(event) {
@@ -35,7 +35,7 @@ function agregarMateria() {
         return response.json();
     })
     .then(data => {
-        resultado.innerHTML = `<p>Materia agregada: ${data.nombre} (${data.cantidad} alumnos)</p>`;
+        resultado.innerHTML = `<p>Materia agregada: ${nuevaMateria.nombre} (${nuevaMateria.cantidad} alumnos)</p>`;
         document.getElementById('materiaForm').reset();
         alert('Materia agregada exitosamente.');
     })
@@ -44,7 +44,6 @@ function agregarMateria() {
         alert('Hubo un error al agregar la materia.');
     });
 }
-
 
 // Función para eliminar materia (DELETE)
 function eliminarMateria() {
@@ -81,3 +80,19 @@ function eliminarMateria() {
         alert('Hubo un error al eliminar la materia.');
     });
 }
+
+// Función para actualizar la etiqueta table
+
+function updateSubjectList(subjects) {
+    subjectList.innerHTML = '';
+    subjects.forEach(subject => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${subject.nombre}</td><td>${subject.cantidad}</td>`;
+        subjectList.appendChild(row);
+    });
+}
+
+// Obtener la lista inicial de materias
+fetch('http://localhost:3128/materias')
+    .then(response => response.json())
+    .then(data => updateSubjectList(data));
