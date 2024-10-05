@@ -46,9 +46,18 @@ function agregarMateria() {
         alert('Hubo un error al agregar la materia.');
     });
 }
+// Función para eliminar todas las materias (DELETE)
+function eliminarMaterias(){
+    fetch(`http://localhost:3128/materias/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+}
 
-// Función para eliminar materia (DELETE)
-function eliminarMateria() {
+// Función para eliminar materia por ID (DELETE/id:)
+function eliminarMateriaID() {
 
     fetch(`http://localhost:3128/materias/${idMateriaAEliminar}`, {
         method: 'DELETE',
