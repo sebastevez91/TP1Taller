@@ -45,41 +45,6 @@ function agregarMateria() {
     });
 }
 
-// Función para actualizar materia (PUT)
-function actualizarMateria() {
-    const idCurso = document.getElementById('idMat').value;
-    const nuevoNombre = document.getElementById('nuevoNombre').value;
-
-    if (!idCurso || !nuevoNombre) {
-        alert('Por favor completa todos los campos.');
-        return;
-    }
-
-    const nuevaDataMateria = {
-        nombre: nuevoNombre
-    };
-
-    fetch(`http://localhost:3128/materias/${idCurso}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(nuevaDataMateria)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error en la solicitud');
-        }
-        return response.json();
-    })
-    .then(result => {
-        alert('Materia actualizada exitosamente.');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Hubo un error al actualizar la materia.');
-    });
-}
 
 // Función para eliminar materia (DELETE)
 function eliminarMateria() {
