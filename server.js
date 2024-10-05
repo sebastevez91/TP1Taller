@@ -75,26 +75,34 @@ const servidor = http.createServer((req, res) => {
             res.writeHead(201, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ mensaje: 'Materia agregada', materia: nuevaMateria }));
         });
-
-    // Ruta para eliminar una materia (DELETE)
-    } else if (req.method === 'DELETE' && url.startsWith('/materias/')) {
-        const idMateria = parseInt(url.split('/')[2]);
+    }else if (req.method === 'DELETE' && req.url === '/materias') {
+        // Eliminar todas las materias
+        listaMaterias = []; // Reiniciamos la lista de materias
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Todas las materias eliminadas' }));
+    } 
+    else if (req.method === 'DELETE' && req.url.startsWith('/materias/')) {
+        // Eliminar una materia por ID
+        const idMateria = parseInt(req.url.split('/')[2]); // Obtener el ID de la URL
+    
+        // Buscar el índice de la materia en el arreglo
         const indiceMateria = listaMaterias.findIndex(materia => materia.id === idMateria);
-
+    
         if (indiceMateria !== -1) {
-            const materiaEliminada = listaMaterias.splice(indiceMateria, 1);
+            const materiaEliminada = listaMaterias.splice(indiceMateria, 1); // Eliminar la materia del arreglo
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ mensaje: 'Materia eliminada', materia: materiaEliminada[0] }));
         } else {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ mensaje: 'Materia no encontrada' }));
         }
-
-    // Ruta no encontrada
-    } else {
+    }
+    else {
+        // Ruta no encontrada
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Ruta no encontrada.');
     }
+    
 });
 
 // Iniciar el servidor en el puerto 3128

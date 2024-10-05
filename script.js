@@ -38,6 +38,8 @@ function agregarMateria() {
         resultado.innerHTML = `<p>Materia agregada: ${nuevaMateria.nombre} (${nuevaMateria.cantidad} alumnos)</p>`;
         document.getElementById('materiaForm').reset();
         alert('Materia agregada exitosamente.');
+        // Actualizar la lista de materias al obtenerlas de nuevo del servidor
+        obtenerMaterias();
     })
     .catch(error => {
         console.error('Error:', error);
@@ -47,12 +49,6 @@ function agregarMateria() {
 
 // Función para eliminar materia (DELETE)
 function eliminarMateria() {
-    const idMateriaAEliminar = document.getElementById('idMat').value;
-
-    if (!idMateriaAEliminar) {
-        alert('Por favor ingresa un ID válido para eliminar.');
-        return;
-    }
 
     fetch(`http://localhost:3128/materias/${idMateriaAEliminar}`, {
         method: 'DELETE',
