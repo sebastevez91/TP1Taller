@@ -26,7 +26,11 @@ Este proyecto es una aplicación web que permite gestionar materias de la carrer
 
 
 - **Eliminar una materia**: El usuario puede eliminar una materia especificando el nombre en la URL `/materias/:name`.
+  
+### Reflexiones
 
+- Aprendizaje: Desarrollar el backend sin Express.js fue desafiante, pero permitió entender mejor cómo funciona Node.js puro.
+- Dificultades: Una de las dificultades fue el manejo de las rutas y el procesamiento de JSON manualmente. Se resolvió con un manejo cuidadoso del URL y el cuerpo de la solicitud.
 # TP1Taller
 =======
 
