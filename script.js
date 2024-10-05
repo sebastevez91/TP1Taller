@@ -53,7 +53,7 @@ function eliminarMaterias(){
         headers: {
             'Content-Type': 'application/json'
         }
-    }
+    });
 }
 
 // Función para eliminar materia por ID (DELETE/id:)
